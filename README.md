@@ -1,5 +1,14 @@
 # Electronic-Poet-CPP
 
+语言 Language
+
+- [中文](#中文)
+- [English](#english)
+
+---
+
+## 中文
+
 C++实现的电子诗人
 
 在刘慈欣的科幻小说《诗云》中，一个由掌握超级技术的外星文明 "神" 创造了一款吟诗软件，可以穷尽所有汉字的排列组合，生成可能存在的所有诗歌。这个软件在海王星轨道上的量子计算机上运行，最终创造出了由所有可能的诗词组成的巨大 "诗云"。现实生活中，刘慈欣本人确实开发过一款名为 "电子诗人" 的软件，这是他在 1989 年编写的一个能够自动生成现代诗的程序。这个现实中的软件与《诗云》中的吟诗软件有着直接的灵感联系，刘慈欣曾表示，他是受到了波兰科幻作家斯坦尼斯拉夫・莱姆的《第一次旅行：特鲁尔的电子诗人》的启发，才开发了自己的电子诗人软件。
@@ -185,3 +194,197 @@ Electronic-Poet-CPP/
 - **构建工具**：g++
 
 感谢刘慈欣先生的灵感。
+
+---
+
+## English
+
+**An Electronic Poet Implemented in C++**
+
+In Liu Cixin’s sci-fi novella *The Poetry Cloud*, an alien civilization referred to as "God"—possessing super-advanced technology—creates a poetry-composing program capable of exhaustively generating every possible combination of Chinese characters, thereby producing all conceivable poems. This program runs on a quantum computer orbiting Neptune, ultimately forming a vast "Poetry Cloud" composed of every possible poem.
+
+Interestingly, Liu Cixin himself actually developed a real-world software called *Electronic Poet* back in 1989—a program that automatically generates modern-style poetry. This real-life program directly inspired the fictional one depicted in *The Poetry Cloud*. Liu has mentioned that his idea originated from Stanisław Lem’s sci-fi short story *Trurl’s Electronic Bard* (from *The Cyberiad*), which describes a machine poet that creates poetry.
+
+## Project Overview
+
+The original *Electronic Poet* was written in 1989 and required Visual FoxPro to run—a development environment that is now difficult to obtain. The most widely circulated version online is a modified edition by Zhuge Heng. Microsoft’s final release of Visual FoxPro was version 9.0 in 2007, after which official support was discontinued, and it was never updated to run natively on modern operating systems such as Windows 10 or Windows 11. As a result, running the original program today typically requires an older machine running Windows XP or Windows 7.
+
+This project is not aimed at producing refined or deeply meaningful poetry—but rather at generating “abstract” poetry through randomness. It relies solely on vocabulary lists and random number generation, without using any large language models. In today’s AI era—where advanced language models can effortlessly create elegant and coherent poems—revisiting this vintage approach is both nostalgic and intellectually intriguing.
+
+This project reimplements the core functionality of the *Electronic Poet* in C++, making it compatible across multiple platforms, including Windows, macOS, and Linux.
+
+Moreover, a web-based user interface (WebUI) has now been implemented, offering an intuitive and interactive experience with features such as:
+
+- Generating poems  
+- Saving poems  
+- Viewing poem history  
+- Importing and deleting poems  
+- Switching between light, dark, and system-following themes  
+
+## Project Components
+
+The project consists of three main parts:
+
+1. **Main Program (`main.cpp`)**  
+   Implements core functionalities: poem generation, vocabulary management, and a built-in web server.
+
+2. **Vocabulary Files** (UTF-8 encoded)  
+   
+   - `noun`: Nouns  
+   - `verb`: Verbs  
+   - `adjective`: Adjectives  
+   - `sentence`: Sentence templates  
+
+3. **WebUI**  
+   
+   - `web/style.css`: Styling  
+   - `web/script.js`: Interactive logic  
+   - Fully responsive design, mobile-friendly  
+
+## C++ Features Used
+
+- **Object-Oriented Design**: All functionality is encapsulated in the `ElectronicPoet` class.  
+- **STL Containers**: `std::vector` for simplified memory management.  
+- **C++ Strings**: Using `std::string`.  
+- **File Streams**: Input/output via `std::ifstream` and `std::ofstream`.  
+- **Exception Handling**: Robust input validation and error recovery to ensure correct and timely responses to exceptional conditions.  
+- **Template Functions**: Generic functions for randomly selecting elements from containers.  
+- **Web Server**: Integrated using the `cpp-httplib` library to support the WebUI.  
+- **File System Operations**: C++17’s `std::filesystem` for handling directories and file operations.  
+
+## Core Features
+
+- **Generate Poetry**: Enter the desired number of lines (1–50) to create a random poem.  
+- **Save Poetry**: Assign a title and save the poem to your collection.  
+- **Poem History**: Browse all saved poems.  
+- **Import Poetry**: Upload `.txt` files to add poems to your collection.  
+- **Delete Poetry**: Remove unwanted poems from history.  
+
+## WebUI Enhancements
+
+- **Dynamic Background**: Subtle animated pattern that follows mouse movement, enriching the visual experience.  
+- **Theme Switching**: Supports light mode, dark mode, and system-following themes—users can switch anytime based on preference.  
+- **Navigation Menu**: Clear functional navigation with indicators showing the current section.  
+- **Responsive Design**: Adapts seamlessly to various screen sizes, optimized for both desktop and mobile devices.  
+- **Smooth Animations**: Gentle transitions to avoid abrupt visual changes and enhance user experience.  
+
+## How It Works
+
+### Startup Process
+
+1. Loads all vocabulary files into memory.  
+2. Starts a web server (default port: 8080).  
+3. Listens for incoming HTTP requests.
+
+### Web Request Handling
+
+- `/` → Serves the WebUI homepage  
+- `/generate` → API endpoint for poem generation  
+- `/save` → Saves a poem with a given title  
+- `/poems` → Returns a list of all saved poems  
+- `/poem/{title}` → Retrieves or deletes a specific poem  
+- Static file service → Delivers CSS and JavaScript assets  
+
+### Poem Generation Logic
+
+1. Randomly selects a sentence template from the `sentence` file.  
+2. Replaces placeholders (e.g., `n` = noun, `v` = verb, `a` = adjective) with randomly chosen words from the corresponding vocabulary lists.  
+3. Returns the assembled poem.
+
+### Poem Storage
+
+- Saved poems are stored as individual `.txt` files in the `collection/` directory.  
+- Filenames correspond directly to poem titles.  
+
+## How to Use
+
+### Compilation
+
+**Windows** (with MinGW):  
+
+```bash
+g++ main.cpp -o main.exe -lws2_32 -std=c++17
+```
+
+Alternatively, compile using Visual Studio.
+
+**Linux / macOS**:  
+
+```bash
+g++ main.cpp -o main -std=c++17
+```
+
+### Running the Program
+
+Ensure the vocabulary files (`noun`, `verb`, `adjective`, `sentence`) are in the same directory as the executable. Then run:
+
+- **Windows**:  
+  
+  ```bash
+  main.exe
+  ```
+
+- **Linux / macOS**:  
+  
+  ```bash
+  ./main
+  ```
+
+### Accessing the WebUI
+
+Once the server starts, open your browser and navigate to:  
+[http://localhost:8080](http://localhost:8080)
+
+### WebUI User Guide
+
+- **Generate a Poem**:  
+  Enter the number of lines (1–50) → Click “Generate Poem” → Wait for the poem to appear.
+
+- **Save a Poem**:  
+  After generation, enter a title → Click “Save Poem” → The poem will be added to your history.
+
+- **View Poem History**:  
+  Go to “Poem History” → Click any entry to view its full content → Hover over an entry to reveal a delete button; click to remove it.
+
+- **Import a Poem**:  
+  In the “Poem History” section, click “Import Poem” → Select a `.txt` file → The poem will be added to your collection.
+
+- **Switch Theme**:  
+  Click the sun/moon icon in the top-right corner to toggle between light and dark modes (or follow system preference).
+
+## Project Structure
+
+```
+Electronic-Poet-CPP/
+├── main.cpp          # Main source code
+├── main.exe          # Compiled executable (Windows)
+├── noun              # Noun vocabulary list
+├── verb              # Verb vocabulary list
+├── adjective         # Adjective vocabulary list
+├── sentence          # Sentence templates
+├── collection/       # Directory for saved poems (.txt files)
+├── web/              # WebUI resources
+│   ├── style.css     # CSS styling
+│   └── script.js     # JavaScript interaction logic
+├── cpp-httplib/      # Embedded HTTP server library
+└── README.md         # This documentation file
+```
+
+## Future Improvements
+
+- Add rhyme scheme support  
+- Implement poem categorization and search functionality  
+- Enable poem sharing (e.g., copy link or export)  
+- Support importing additional file formats (e.g., `.docx`)  
+
+## Tech Stack
+
+- **Backend**: C++ (C++17)  
+- **Web Framework**: `cpp-httplib`  
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)  
+- **Icons**: Font Awesome  
+- **Build Tool**: g++  
+
+---
+
+*Inspired by Mr. Liu Cixin’s original “Electronic Poet”.*
